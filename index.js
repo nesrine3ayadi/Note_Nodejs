@@ -4,7 +4,7 @@ var action = process.argv[2];
 var item = process.argv[4];
 var item2 = process.argv[6];
 
-const add =()=> {
+const add = () => {
   fs.readFile("notes.json", function (err, data) {
     var json = JSON.parse(data);
     if (process.argv.length === 7) {
@@ -20,12 +20,13 @@ const add =()=> {
     } else if (process.argv.length === 4) {
       console.log("Missing Required TITLE");
     } else {
-      console.log("Option : ....");
+        console.log("\nOptions:\n --help Show help [boolean] \n --title, -t Title of note [required] \n --body, -b  Body of note [required] \n\nMissing required arguments: title, body\n ")
+
     }
   });
-}
+};
 
-const deleteItem =() => {
+const deleteItem = () => {
   if (process.argv.length === 5) {
     fs.readFile("notes.json", function (err, data) {
       var json = JSON.parse(data);
@@ -43,7 +44,7 @@ const deleteItem =() => {
   } else {
     console.log("HELP");
   }
-}
+};
 
 function list() {
   fs.readFile("notes.json", function (err, data) {
@@ -59,7 +60,9 @@ function read() {
   fs.readFile("notes.json", function (err, data) {
     var json = JSON.parse(data);
     const index = json.findIndex((x) => x.title === item);
-    console.log(json.splice(index, 1));
+    console.log(index);
+    if (index < 0) console.log("item not found");
+    else console.log(json.splice(index, 1));
   });
 }
 
@@ -74,6 +77,8 @@ switch (action) {
     list();
   case "read":
     read();
-    default : return "ERROOOR"; break;
-
+  default:
+    console.log(
+      "\nOptions:\n --help Show help [boolean] \n --title, -t Title of note [required] \n --body, -b  Body of note [required] \n\nMissing required arguments: title, body\n "
+    );
 }
